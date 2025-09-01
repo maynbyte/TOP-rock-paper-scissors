@@ -1,22 +1,28 @@
-humanScore = 0;
-computerScore = 0;
+// Global variables to keep track of scores
+let humanScore = 0;
+let computerScore = 0;
+let isGameStarted = false;
 
+// DOM Elements
+const startButton = document.getElementById("start-game");
+const choicesContainer = document.getElementById("choices");
+const playerChoiceDisplay = document.getElementById("player-choice");
+const computerChoiceDisplay = document.getElementById("computer-choice");
+const resultDisplay = document.getElementById("result");
+const humanScoreDisplay = document.getElementById("human-score");
+const computerScoreDisplay = document.getElementById("computer-score");
+
+// Hide choice initially
+choicesContainer.style.display = "none";
+
+// Function to get computer's random choice
 const getComputerChoice = () => {
   const choices = ["rock", "paper", "scissors"];
   const randomIndex = Math.floor(Math.random() * choices.length);
   return choices[randomIndex];
 };
 
-const getHumanChoice = () => {
-  let choice = prompt("Enter rock, paper, or scissors:").toLowerCase();
-  while (!["rock", "paper", "scissors"].includes(choice)) {
-    choice = prompt(
-      "Invalid choice. Please enter rock, paper, or scissors:"
-    ).toLowerCase();
-  }
-  return choice;
-};
-
+// Function to play a single round and determine the winner
 const playRound = (humanChoice, computerChoice) => {
   if (humanChoice === computerChoice) {
     return "It's a tie!";
@@ -33,21 +39,46 @@ const playRound = (humanChoice, computerChoice) => {
   }
 };
 
-const playGame = () => {
-  for (let round = 1; round <= 5; round++) {
-    const humanChoice = getHumanChoice();
+// Update display function
+function updateDisplay(humanChoice, computerChoice, result) {
+  playerChoiceDisplay.textContent = humanChoice;
+  computerChoiceDisplay.textContent = computerChoice;
+  resultDisplay.textContent = result;
+  humanScoreDisplay.textContent = humanScore;
+  computerScoreDisplay.textContent = computerScore;
+}
+
+// Event listener for start button
+startButton.addEventListener("click", () => {
+  if (!isGameStarted) {
+    isGameStarted = true;
+    choicesContainer.style.display = "block";
+    startButton.style.display = "none";
+  }
+});
+
+// Choice buttons event listeners
+document.querySelectorAll(".choice-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!isGameStarted) return;
+
+    const humanChoice = button.getAttribute("data-choice");
     const computerChoice = getComputerChoice();
     const result = playRound(humanChoice, computerChoice);
-    console.log(`Round ${round}: ${result}`);
-    console.log(`Score - You: ${humanScore}, Computer: ${computerScore}`);
-  }
-  if (humanScore > computerScore) {
-    console.log("Congratulations! You are the overall winner!");
-  } else if (computerScore > humanScore) {
-    console.log("Sorry, the computer wins overall. Better luck next time!");
-  } else {
-    console.log("It's an overall tie!");
-  }
-};
+    updateDisplay(humanChoice, computerChoice, result);
 
-playGame();
+    // Check for game end (first to 5 points)
+    if (humanScore === 5 || computerScore === 5) {
+      const winner = humanScore === 5 ? "You" : "Computer";
+      resultDisplay.textContent = `Game Over! ${winner} won the game!`;
+      choicesContainer.style.display = "none";
+      startButton.style.display = "block";
+      startButton.textContent = "Play Again";
+
+      // Reset scores for next game
+      humanScore = 0;
+      computerScore = 0;
+      isGameStarted = false;
+    }
+  });
+});

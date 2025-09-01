@@ -3,8 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./assets/favicon.jpg" type="image/x-icon" />
     <title>TOP | RPS</title>
+
+    <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
   </head>
-  <body></body>
+  <body>
+    <h1>Rock, Paper, Scissors Game</h1>
+    <div class="game-container">
+      <div id="choices" class="choices-container">
+        <button class="choice-btn" data-choice="rock">👊 Rock</button>
+        <button class="choice-btn" data-choice="paper">✋ Paper</button>
+        <button class="choice-btn" data-choice="scissors">✌️ Scissors</button>
+      </div>
+
+      <div id="round-info">
+        <p>Your choice: <span id="player-choice">-</span></p>
+        <p>Computer choice: <span id="computer-choice">-</span></p>
+      </div>
+
+      <button id="start-game">Start Game</button>
+
+      <div id="result"></div>
+
+      <div id="scoreboard">
+        <p>Human Score: <span id="human-score">0</span></p>
+        <p>Computer Score: <span id="computer-score">0</span></p>
+      </div>
+    </div>
+  </body>
 </html>
