@@ -25,9 +25,6 @@ A classic Rock Paper Scissors game built with HTML, CSS, and JavaScript as part 
 - CSS3
 - JavaScript (ES6+)
 
-## Live Demo
-
-[Play the game here](#) <!-- Add your deployed game link here -->
 
 ## Installation
 
